@@ -1,4 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -37,7 +39,11 @@
 					<th>Action</th>
 				</tr>
 				
-				<c:forEach var="tempStudent" items="${STUDENT_LIST}">
+				 <c:forEach var="tempStudent" items="${STUDENT_LIST}">
+                   <jsp:useBean id="student" class="mvc.app.Student" scope="request" />
+					<jsp:setProperty name="student" property="firstName" value="${param.firstName}" />
+					<jsp:setProperty name="student" property="lastName" value="${param.lastName}" />
+					<jsp:setProperty name="student" property="email" value="${param.email}" />
 					
 					<!-- set up a link for each student -->
 					<c:url var="tempLink" value="StudentControllerServlet">
@@ -52,12 +58,11 @@
 					</c:url>
 																		
 					<tr>
-						<td> ${tempStudent.firstName} </td>
-						<td> ${tempStudent.lastName} </td>
-						<td> ${tempStudent.email} </td>
+						<td><jsp:getProperty name="student" property="firstName" /></td>
+                        <td><jsp:getProperty name="student" property="lastName" /></td>
+                        <td><jsp:getProperty name="student" property="email" /></td>
 						<td> 
 							<a href="${tempLink}">Update</a> 
-							 | 
 							<a href="${deleteLink}"
 							onclick="if (!(confirm('Are you sure you want to delete this student?'))) return false">
 							Delete</a>	
